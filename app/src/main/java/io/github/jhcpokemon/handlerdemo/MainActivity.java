@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             int result = msg.what;
-            textView.setText(result);
+            textView.setText("result" + result);
         }
     }
 }
