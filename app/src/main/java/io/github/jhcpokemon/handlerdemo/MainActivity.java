@@ -1,5 +1,6 @@
 package io.github.jhcpokemon.handlerdemo;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -14,18 +15,18 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static TextView textView1,textView2;
-    private Button button1,button2;
-    private Handler handler1,handler2;
+    private static TextView textView1, textView2;
+    private Button button1, button2;
+    private Handler handler1, handler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView1 = (TextView)findViewById(R.id.text_view1);
-        textView2 = (TextView)findViewById(R.id.text_view2);
-        button1 = (Button)findViewById(R.id.button1);
-        button2 = (Button)findViewById(R.id.button2);
+        textView1 = (TextView) findViewById(R.id.text_view1);
+        textView2 = (TextView) findViewById(R.id.text_view2);
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
         handler1 = new MyHandler();
         button1.setOnClickListener(new ButtonListener());
         button2.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class ButtonListener implements View.OnClickListener{
+    class ButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Message msg = handler1.obtainMessage();
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    static class MyHandler extends Handler{
+    static class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             int result = msg.what;
@@ -79,16 +80,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class MyThread extends Thread{
+    static final class MyHandler2 extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.i("fromworkthread", msg.obj.toString());
+        }
+    }
+
+    class MyThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
-            handler2 = new Handler(){
-                @Override
-                public void handleMessage(Message msg) {
-                    Log.i("fromworkthread",msg.obj.toString());
-                }
-            };
+            handler2 = new MyHandler2();
             Looper.loop();
         }
     }
